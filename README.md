@@ -1,3 +1,4 @@
+
 # Agro Forte, Futuro Sustentável - Nova Tebas
 
 ## Tema da Página
@@ -14,4 +15,3 @@ Apresentar de maneira profissional, acessível e totalmente responsiva a força 
    * `Foto3.png`
 3. **Execução**: Dê um duplo clique no arquivo `index.html` para abri-lo em qualquer navegador web moderno.
 4. **Recursos de Acessibilidade**: Utilize os botões flutuantes para aumentar/diminuir o texto, alternar para o Modo Noturno ou ativar a leitura nativa automatizada em voz alta.
-
