@@ -1,1 +1,123 @@
-box-shadow: var(--shadow-medium);}.card-highlight h3 {font-size: 1.4rem;color: var(--color-primary-blue);margin-bottom: 1rem;}body.dark-mode .card-highlight h3 {color: var(--color-light-blue);}/* ==========================================================================ÁREA INTERATIVA: FORMULÁRIO E COMENTÁRIOS========================================================================== */.interaction-grid {display: grid;grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));gap: 3rem;}.form-container, .comments-container {background-color: var(--bg-card);padding: 2.5rem;border-radius: var(--radius-large);box-shadow: var(--shadow-soft);border: 1px solid var(--border-color);}.form-container h3, .comments-container h3 {font-size: 1.5rem;color: var(--color-primary-blue);margin-bottom: 0.5rem;}body.dark-mode .form-container h3,body.dark-mode .comments-container h3 {color: var(--color-light-blue);}.form-container p, .comments-container p {color: var(--text-muted);font-size: 0.95rem;margin-bottom: 2rem;}/* Componentes do Formulário */.form-group {display: flex;flex-direction: column;gap: 0.4rem;margin-bottom: 1.2rem;}.form-row {display: grid;grid-template-columns: 2fr 1fr;gap: 1rem;}label {font-size: 0.9rem;font-weight: 600;color: var(--text-main);}input, textarea {padding: 0.8rem 1rem;border-radius: var(--radius-default);border: 1px solid var(--border-color);background-color: var(--bg-main);color: var(--text-main);font-family: var(--font-main);font-size: 1rem;transition: var(--transition-smooth);}input:focus, textarea:focus {outline: none;border-color: var(--color-light-blue);box-shadow: 0 0 0 3px rgba(50, 140, 193, 0.2);}.btn-submit {width: 100%;background-color: var(--color-primary-blue);color: var(--color-white);border: none;padding: 1rem;font-size: 1rem;font-weight: bold;border-radius: var(--radius-default);cursor: pointer;transition: var(--transition-smooth);margin-top: 1rem;}.btn-submit:hover {background-color: var(--color-green);box-shadow: 0 4px 12px rgba(45, 127, 53, 0.3);}/* Área de Comentários Dinâmicos */.comment-box-wrapper {margin-bottom: 2rem;}.comments-list {margin-top: 2rem;border-top: 1px solid var(--border-color);padding-top: 1.5rem;}.comments-list h4 {margin-bottom: 1rem;font-size: 1.1rem;}.comment-item {background-color: var(--bg-main);padding: 1rem;border-radius: var(--radius-default);margin-bottom: 1rem;border-left: 3px solid var(--color-light-blue);animation: fadeIn 0.4s ease-out;}.comment-item strong {display: block;font-size: 0.9rem;color: var(--color-primary-blue);margin-bottom: 0.2rem;}.feedback-message {padding: 0.8rem;margin-top: 1rem;border-radius: var(--radius-default);font-weight: 600;text-align: center;font-size: 0.9rem;}.feedback-message.success {background-color: rgba(45, 127, 53, 0.15);color: var(--color-green);}/* ==========================================================================RODAPÉ========================================================================== */.main-footer {background-color: var(--color-metallic-blue);color: var(--color-white);padding: 3rem 2rem;margin-top: auto;border-top: 4px solid var(--color-gold);}.footer-container {max-width: 1400px;margin: 0 auto;display: flex;flex-direction: column;align-items: center;gap: 1.5rem;text-align: center;}.footer-phrase {font-size: 1.1rem;font-weight: 600;color: var(--color-yellow);}.footer-references {font-size: 0.9rem;color: #a0aec0;}.footer-references a {color: var(--color-light-blue);text-decoration: none;margin: 0 5px;transition: var(--transition-smooth);}.footer-references a:hover {color: var(--color-gold);text-decoration: underline;}/* Animação básica */@keyframes fadeIn {from { opacity: 0; transform: translateY(10px); }to { opacity: 1; transform: translateY(0); }}/* ==========================================================================RESPONSIVIDADE ADICIONAL E ADAPTAÇÕES DE TELA========================================================================== */@media (max-width: 768px) {.accessibility-panel {top: auto;bottom: 10px;left: 50%;transform: translateX(-50%);flex-direction: row;width: calc(100% - 20px);justify-content: center;box-shadow: 0 -4px 20px rgba(0,0,0,0.2);}.main-layout {padding-bottom: 80px; /* Evita que o painel de acessibilidade cubra o conteúdo */}.header-container {flex-direction: column;gap: 1rem;}}As respostas da IA podem conter erros. Saiba mais
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- FUNCIONALIDADE: ACCORDION ---
+    const headers = document.querySelectorAll('.accordion-header');
+    
+    headers.forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.nextElementSibling;
+            const isExpanded = header.getAttribute('aria-expanded') === 'true';
+            
+            // Alterna o estado atual
+            header.setAttribute('aria-expanded', !isExpanded);
+            content.hidden = isExpanded;
+            header.querySelector('.icon').textContent = isExpanded ? '+' : '−';
+        });
+    });
+
+    // --- FUNCIONALIDADE: ACESSIBILIDADE (FONTE E TEMA) ---
+    let tamanhoAtualFonte = 100;
+    const btnAumentar = document.getElementById('btn-aumentar-fonte');
+    const btnDiminuir = document.getElementById('btn-diminuir-fonte');
+    const btnTema = document.getElementById('btn-tema');
+
+    btnAumentar.addEventListener('click', () => {
+        if(tamanhoAtualFonte < 140) {
+            tamanhoAtualFonte += 10;
+            document.documentElement.style.fontSize = `${tamanhoAtualFonte}%`;
+        }
+    });
+
+    document.getElementById('btn-diminuir-fonte').addEventListener('click', () => {
+        if(tamanhoAtualFonte > 80) {
+            tamanhoAtualFonte -= 10;
+            document.documentElement.style.fontSize = `${tamanhoAtualFonte}%`;
+        }
+    });
+
+    btnTema.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+    });
+
+    // --- FUNCIONALIDADE: LEITURA POR VOZ (SpeechSynthesis API) ---
+    const btnFalar = document.getElementById('btn-falar');
+    const btnParar = document.getElementById('btn-parar');
+    let sotaqueBr = null;
+
+    // Carrega vozes de maneira assíncrona para suporte cross-browser
+    function carregarVozes() {
+        const vozes = window.speechSynthesis.getVoices();
+        sotaqueBr = vozes.find(voz => voz.lang === 'pt-BR' || voz.lang.includes('pt'));
+    }
+    carregarVozes();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = carregarVozes;
+    }
+
+    btnFalar.addEventListener('click', () => {
+        window.speechSynthesis.cancel(); // Cancela leituras anteriores ativas
+        
+        const containerPrincipal = document.getElementById('conteudo-principal');
+        // Filtra para ler text content limpo da página principal
+        const textoParaLer = containerPrincipal.innerText;
+
+        const utterance = new SpeechSynthesisUtterance(textoParaLer);
+        if (sotaqueBr) utterance.voice = sotaqueBr;
+        utterance.rate = 1.1; // Velocidade natural de fala
+
+        window.speechSynthesis.speak(utterance);
+    });
+
+    btnParar.addEventListener('click', () => {
+        window.speechSynthesis.cancel();
+    });
+
+    // --- FUNCIONALIDADE: FORMULÁRIO DE INSCRIÇÃO ---
+    const formInscricao = document.getElementById('cadastro-seminario');
+    formInscricao.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nome = document.getElementById('nome').value;
+        alert(`Parabéns, ${nome}! Sua inscrição para o seminário on-line de Nova Tebas foi realizada com sucesso.`);
+        formInscricao.reset();
+    });
+
+    // --- FUNCIONALIDADE: ÁREA DE COMENTÁRIOS ---
+    const formComentario = document.getElementById('form-comentario');
+    const listaComentarios = document.getElementById('lista-comentarios');
+
+    formComentario.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const caixaTexto = document.getElementById('texto-comentario');
+        const texto = caixaTexto.value.trim();
+
+        if (texto) {
+            const novoComentario = document.createElement('div');
+            novoComentario.classList.add('comentario-item');
+            
+            // Tratamento contra injeção de script estruturado de forma segura
+            const paragrafo = document.createElement('p');
+            paragrafo.textContent = texto;
+            novoComentario.appendChild(paragrafo);
+            
+            // Adiciona no topo da lista
+            listaComentarios.insertBefore(novoComentario, listaComentarios.firstChild);
+            caixaTexto.value = '';
+        }
+    });
+});
+Use o código com cuidado.README.mdmarkdown# Agro Forte, Futuro Sustentável - Nova Tebas
+
+## Tema da Página
+O tema central do projeto é **"Agro forte, futuro sustentável: equilíbrio entre produção e meio ambiente"**, focado no panorama econômico e de sustentabilidade no município de Nova Tebas, localizado na região Central do Paraná.
+
+## Objetivo da Página
+Apresentar de maneira profissional, acessível e totalmente responsiva a força do agronegócio de Nova Tebas, destacando o papel fundamental da agricultura familiar (que compõe 85% das propriedades locais). A página visa informar o leitor sobre as cadeias produtivas (leite, grãos, pecuária, orgânicos) e promover engajamento através de inscrições em seminários e áreas de debate interativo.
+
+## Instruções de Uso
+1. **Instalação**: Salve os três códigos fornecidos (`index.html`, `style.css` e `script.js`) no mesmo diretório local de seu computador.
+2. **Imagens**: Para que as imagens carreguem perfeitamente no design premium, salve 3 fotos de sua escolha na mesma pasta utilizando exatamente os nomes:
+   * `Foto1.png`
+   * `Foto2.png`
+   * `Foto3.png`
+3. **Execução**: Dê um duplo clique no arquivo `index.html` para abri-lo em qualquer navegador web moderno.
+4. **Recursos de Acessibilidade**: Utilize os botões flutuantes para aumen
