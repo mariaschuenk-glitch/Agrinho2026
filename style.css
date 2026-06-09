@@ -1,0 +1,419 @@
+
+### `style.css`
+```css
+/* ==========================================================================
+   CONFIGURAÇÕES GERAIS E VARIÁVEIS (Customizadores de Fácil Acesso)
+   ========================================================================== */
+:root {
+    /* Paleta de Cores Obrigatória */
+    --color-primary-blue: #0b3c5d;
+    --color-light-blue: #328cc1;
+    --color-metallic-blue: #1d2731;
+    --color-white: #ffffff;
+    --color-black: #111111;
+    --color-green: #2d7f35;
+    --color-yellow: #f9a825;
+    --color-gold: #d4af37;
+    
+    /* Configurações de Layout customizáveis */
+    --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-size-base: 1rem;
+    --radius-default: 12px;
+    --radius-large: 20px;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --transition-smooth: all 0.3s ease-in-out;
+    
+    /* Variáveis Dinâmicas de Escala */
+    --spacing-layout: clamp(2rem, 5vw, 5rem);
+    --font-hero-title: clamp(2rem, 4vw, 3.8rem);
+    --font-section-title: clamp(1.6rem, 3vw, 2.4rem);
+
+    /* Cores de Fundo Padrão */
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #1d2731;
+    --text-muted: #55606b;
+    --border-color: #e2e8f0;
+}
+
+/* Modo Escuro */
+body.dark-mode {
+    --bg-main: #0f172a;
+    --bg-card: #1e293b;
+    --text-main: #f8fafc;
+    --text-muted: #cbd5e1;
+    --border-color: #334155;
+    --color-primary-blue: #328cc1;
+}
+
+/* Reset Técnico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: var(--font-size-base);
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* ==========================================================================
+   PAINEL DE ACESSIBILIDADE FLUTUANTE
+   ========================================================================== */
+.accessibility-panel {
+    position: fixed;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    background-color: var(--color-metallic-blue);
+    padding: 10px;
+    border-radius: var(--radius-default);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 9999;
+    box-shadow: var(--shadow-medium);
+    border: 1px solid var(--color-light-blue);
+}
+
+.accessibility-panel button {
+    background-color: var(--color-primary-blue);
+    color: var(--color-white);
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: var(--transition-smooth);
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.accessibility-panel button:hover, 
+.accessibility-panel button:focus {
+    background-color: var(--color-green);
+    transform: scale(1.05);
+    outline: 2px solid var(--color-yellow);
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+.main-header {
+    background-color: var(--color-metallic-blue);
+    padding: 1.2rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 3px solid var(--color-green);
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: var(--color-white);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--color-green);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-menu a {
+    color: var(--color-white);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.nav-menu a:hover {
+    color: var(--color-yellow);
+    background-color: rgba(255,255,255,0.05);
+}
+
+/* ==========================================================================
+   HERO SECTION
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    height: 70vh;
+    min-height: 450px;
+    background: linear-gradient(135deg, var(--color-primary-blue), var(--color-metallic-blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-white);
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.4) 80%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+}
+
+.hero-content h1 {
+    font-size: var(--font-hero-title);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.hero-content p {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    color: var(--color-yellow);
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: var(--color-green);
+    color: var(--color-white);
+    padding: 1rem 2.5rem;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(45, 127, 53, 0.4);
+    border: 2px solid transparent;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-white);
+    color: var(--color-green);
+    border-color: var(--color-green);
+    transform: translateY(-3px);
+}
+
+/* ==========================================================================
+   LAYOUT DO CONTEÚDO PRINCIPAL
+   ========================================================================== */
+.main-layout {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-layout) 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-layout);
+}
+
+.content-section h2 {
+    font-size: var(--font-section-title);
+    color: var(--color-primary-blue);
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+body.dark-mode .content-section h2 {
+    color: var(--color-light-blue);
+}
+
+.content-section h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--color-green);
+    border-radius: 2px;
+}
+
+.intro-section p {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    max-width: 1000px;
+}
+
+/* ==========================================================================
+   IMAGENS (REQUISITO PREMIUM)
+   ========================================================================== */
+.imagem-container {
+    margin: 2.5rem 0;
+}
+
+.imagem {
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-smooth);
+    background-color: var(--border-color);
+    aspect-ratio: 16 / 9;
+    position: relative;
+}
+
+.imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: var(--transition-smooth);
+}
+
+/* Efeito Hover nas Imagens */
+.imagem:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    outline: 3px solid var(--color-gold);
+}
+
+.imagem:hover img {
+    transform: scale(1.03);
+}
+
+/* Distribuição Harmônica de Imagens */
+.single-img {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grid-imgs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* ==========================================================================
+   SEÇÕES EXPANSÍVEIS (ACCORDION)
+   ========================================================================== */
+.section-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+}
+
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 1000px;
+}
+
+.accordion-item {
+    background-color: var(--bg-card);
+    border-radius: var(--radius-default);
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+}
+
+.accordion-header {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 1.2rem 1.5rem;
+    text-align: left;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-main);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition-smooth);
+}
+
+.accordion-header:hover {
+    background-color: rgba(50, 140, 193, 0.05);
+    color: var(--color-green);
+}
+
+.accordion-header .icon {
+    font-size: 1.5rem;
+    color: var(--color-light-blue);
+    transition: var(--transition-smooth);
+}
+
+.accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+    padding: 0 1.5rem;
+    background-color: rgba(0,0,0,0.01);
+}
+
+.accordion-item.active .accordion-body {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.accordion-item.active .accordion-header .icon {
+    transform: rotate(45deg);
+    color: var(--color-green);
+}
+
+/* ==========================================================================
+   CARDS DE DESTAQUES
+   ========================================================================== */
+.highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+}
+
+.card-highlight {
+    background-color: var(--bg-card);
+    padding: 2.5rem;
+    border-radius: var(--radius-large);
+    box-shadow: var(--shadow-soft);
+    border-left: 5px solid var(--color-green);
+    transition: var(--transition-smooth);
+}
+
+.card-highlight:hover {
+    transform: translateY(-3px);
